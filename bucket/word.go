@@ -6,7 +6,7 @@ import (
 
 type Word struct {
 	value  string
-	rating *mark.Mark
+	rating mark.Mark
 }
 
 func NewWord(word string) *Word {
@@ -20,6 +20,6 @@ func (w Word) GetValue() string {
 	return w.value
 }
 
-func (w Word) Rating() *mark.Mark {
-	return w.rating
+func (w *Word) Rating() *mark.Mark {
+	return &w.rating
 }

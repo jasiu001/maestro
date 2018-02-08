@@ -25,8 +25,8 @@ type Mark struct {
 	value int
 }
 
-func InitMark() *Mark {
-	return &Mark{value: NONE}
+func InitMark() Mark {
+	return Mark{value: NONE}
 }
 
 func (m Mark) NameMark() string {
