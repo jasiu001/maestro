@@ -30,58 +30,69 @@ func TestSpecifyMark(t *testing.T) {
 	}
 }
 
-func TestMark_UpdateMark(t *testing.T) {
-
-	mark1 := InitMark()
-	mark1.UpdateMark(0)
-	if mark1.value != CORRECT {
-		t.Errorf("Init mark updated by 0 difference should be CORRECT but is: %s", mark1.NameMark())
+func TestMark_UpdateMarkToCorrectState(t *testing.T) {
+	mark := InitMark()
+	mark.UpdateMark(0)
+	if mark.value != CORRECT {
+		t.Errorf("Init mark updated by 0 difference should be CORRECT but is: %s", mark.NameMark())
 	}
-	if mark1.Pass() != true {
+	if mark.Pass() != true {
 		t.Errorf("CORRECT mark should be pass but is not")
 	}
+}
 
-	mark2 := InitMark()
-	mark2.UpdateMark(1)
-	if mark2.value != PROPER {
-		t.Errorf("Init mark updated by 1 difference should be PROPER but is: %s", mark2.NameMark())
+func TestMark_UpdateMarkToProperState(t *testing.T) {
+	mark := InitMark()
+	mark.UpdateMark(1)
+	if mark.value != PROPER {
+		t.Errorf("Init mark updated by 1 difference should be PROPER but is: %s", mark.NameMark())
 	}
+}
 
-	mark3 := InitMark()
-	mark3.UpdateMark(2)
-	if mark3.value != SIMILAR {
-		t.Errorf("Init mark updated by 2 difference should be SIMILAR but is: %s", mark3.NameMark())
+func TestMark_UpdateMarkToSimilarState(t *testing.T) {
+	mark := InitMark()
+	mark.UpdateMark(2)
+	if mark.value != SIMILAR {
+		t.Errorf("Init mark updated by 2 difference should be SIMILAR but is: %s", mark.NameMark())
 	}
+}
 
-	mark4 := InitMark()
-	mark4.UpdateMark(3)
-	if mark4.value != WRONG {
-		t.Errorf("Init mark updated by 3 difference should be WRONG but is: %s", mark4.NameMark())
+func TestMark_UpdateMarkToWrongState(t *testing.T) {
+	mark := InitMark()
+	mark.UpdateMark(3)
+	if mark.value != WRONG {
+		t.Errorf("Init mark updated by 3 difference should be WRONG but is: %s", mark.NameMark())
 	}
+}
 
-	mark5 := InitMark()
-	mark5.UpdateMark(6)
-	if mark5.value != WRONG {
-		t.Errorf("Init mark updated by 6 difference should be WRONG but is: %s", mark5.NameMark())
+func TestMark_UpdateMarkWithManyMistakes(t *testing.T) {
+	mark := InitMark()
+	mark.UpdateMark(6)
+	if mark.value != WRONG {
+		t.Errorf("Init mark updated by 6 difference should be WRONG but is: %s", mark.NameMark())
 	}
+}
 
-	mark6 := InitMark()
-	mark6.UpdateMark(2)
-	mark6.UpdateMark(6)
-	if mark6.value != SIMILAR {
-		t.Errorf("SIMILAR mark updated with WRONG state should stay SIMILAR but is: %s", mark6.NameMark())
+func TestMark_UpdateMarkFromSimilarToWrongState(t *testing.T) {
+	mark := InitMark()
+	mark.UpdateMark(2)
+	mark.UpdateMark(6)
+	if mark.value != SIMILAR {
+		t.Errorf("SIMILAR mark updated with WRONG state should stay SIMILAR but is: %s", mark.NameMark())
 	}
+}
 
-	mark7 := InitMark()
-	mark7.UpdateMark(5)
-	mark7.UpdateMark(1)
-	if mark7.value != PROPER {
-		t.Errorf("WRONG mark updated with PROPER state should change to PROPER but is: %s", mark7.NameMark())
+func TestMark_UpdateMarkFromWrongToProperState(t *testing.T) {
+	mark := InitMark()
+	mark.UpdateMark(5)
+	mark.UpdateMark(1)
+	if mark.value != PROPER {
+		t.Errorf("WRONG mark updated with PROPER state should change to PROPER but is: %s", mark.NameMark())
 	}
-	if mark7.Pass() != false {
+	if mark.Pass() != false {
 		t.Errorf("PROPER mark should not be pass but it is")
 	}
-	if mark7.Fail() != true {
+	if mark.Fail() != true {
 		t.Errorf("PROPER mark should be fail but is not")
 	}
 }

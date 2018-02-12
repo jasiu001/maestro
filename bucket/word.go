@@ -16,7 +16,7 @@ func NewWord(word string) *Word {
 	}
 }
 
-func (w Word) GetValue() string {
+func (w Word) Val() string {
 	return w.value
 }
 

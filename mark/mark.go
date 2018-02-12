@@ -1,11 +1,11 @@
 package mark
 
 const (
-	NONE = 0
+	NONE    = 0
 	CORRECT = 1
-	PROPER = 2
+	PROPER  = 2
 	SIMILAR = 3
-	WRONG = 4
+	WRONG   = 4
 )
 
 func SpecifyMark(difference int) int {

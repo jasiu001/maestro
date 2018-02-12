@@ -1,8 +1,8 @@
 package comparison
 
 import (
-	"testing"
 	"github.com/jasiu001/maestro/bucket"
+	"testing"
 )
 
 func TestCompareWordsWithResultCorrect(t *testing.T) {
@@ -58,5 +58,41 @@ func TestCompareWordsWithResultCorrectAfterSecondTry(t *testing.T) {
 	CompareWords(word, uWord2)
 	if word.Rating().NameMark() != "CORRECT" {
 		t.Errorf("Word mark should be CORRECT but is: %s", word.Rating().NameMark())
+	}
+}
+
+func TestBucket_RunComparison(t *testing.T) {
+	testBucket := bucket.InitBucket([]string{"word1", "word2"}, []string{"word2", "word1"})
+	RunComparison(testBucket)
+
+	if !testBucket.Pass() {
+		t.Errorf("Bucket should has state Pass but has not")
+	}
+}
+
+func TestBucket_RunComparisonWithOneMistakeBucket(t *testing.T) {
+	testBucket := bucket.InitBucket([]string{"word1", "word2"}, []string{"word", "word1"})
+	RunComparison(testBucket)
+
+	if testBucket.Pass() {
+		t.Errorf("Bucket should not has state Pass but it has")
+	}
+}
+
+func TestBucket_RunComparisonWithTwoMistakesBucket(t *testing.T) {
+	testBucket := bucket.InitBucket([]string{"word1", "word2"}, []string{"word", "ward1"})
+	RunComparison(testBucket)
+
+	if testBucket.Pass() {
+		t.Errorf("Bucket should not has state Pass but it has")
+	}
+}
+
+func TestBucket_RunComparisonWithThreeCorrectWords(t *testing.T) {
+	testBucket := bucket.InitBucket([]string{"word1", "word2", "word3"}, []string{"word2", "word3", "word1"})
+	RunComparison(testBucket)
+
+	if !testBucket.Pass() {
+		t.Errorf("Bucket should has state Pass but has not")
 	}
 }
