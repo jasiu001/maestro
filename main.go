@@ -1,12 +1,13 @@
 package main
 
 import (
-	"fmt"
-	levenshtein "github.com/texttheater/golang-levenshtein/levenshtein"
+	"github.com/jasiu001/maestro/list"
+	"github.com/jasiu001/maestro/spreadsheets"
+	"github.com/davecgh/go-spew/spew"
 )
 
-// export GOPATH=$HOME/workspace/maestro-project
-
 func main() {
-	fmt.Println(levenshtein.DistanceForStrings([]rune("aaaa"), []rune("aabb"), levenshtein.DefaultOptions))
+	data := spreadsheets.CreateData()
+	newList := list.CreateList(data)
+	spew.Dump(newList)
 }
