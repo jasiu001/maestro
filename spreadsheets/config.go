@@ -1,12 +1,10 @@
 package spreadsheets
 
 import (
-	"fmt"
+	configApp "github.com/jasiu001/maestro/config"
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
 	"log"
-	"path"
-	"runtime"
 )
 
 const CONFIG_FILE = "config.yaml"
@@ -22,13 +20,7 @@ type Spreadsheet struct {
 }
 
 func InitConfig() *Config {
-	_, filename, _, ok := runtime.Caller(0)
-	if !ok {
-		log.Fatalln("Runtime cannot read current file")
-	}
-	dir := path.Join(path.Dir(filename))
-
-	yamlFile, err := ioutil.ReadFile(fmt.Sprintf("%s/%s", dir, CONFIG_FILE))
+	yamlFile, err := ioutil.ReadFile(configApp.GetFile(CONFIG_FILE))
 	if err != nil {
 		log.Fatalf("Unable to read config file: %v", err)
 	}

@@ -9,25 +9,18 @@ import (
 	"net/url"
 	"os"
 	"os/user"
-	"path"
 	"path/filepath"
-	"runtime"
 
+	configApp "github.com/jasiu001/maestro/config"
 	"golang.org/x/net/context"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/google"
 )
 
 func GetClient() *http.Client {
-	_, filename, _, ok := runtime.Caller(0)
-	if !ok {
-		log.Fatalln("Runtime cannot read current file")
-	}
-	dir := path.Join(path.Dir(filename))
-
 	ctx := context.Background()
 
-	b, err := ioutil.ReadFile(dir + "/client_secret.json")
+	b, err := ioutil.ReadFile(configApp.GetFile("client_secret.json"))
 	if err != nil {
 		log.Fatalf("Unable to read client secret file: %v", err)
 	}

@@ -15,4 +15,4 @@
 
 # vendor from dep
 vendor
-spreadsheets/client_secret.json
+config/client_secret.json

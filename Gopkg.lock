@@ -8,10 +8,28 @@
   version = "v0.18.0"
 
 [[projects]]
-  name = "github.com/davecgh/go-spew"
-  packages = ["spew"]
-  revision = "346938d642f2ec3594ed81d874461961cd0faa76"
-  version = "v1.1.0"
+  branch = "v2"
+  name = "github.com/abiosoft/ishell"
+  packages = ["."]
+  revision = "42a9bbfa0017d7243b50b8f542076ef3d5e7da6c"
+
+[[projects]]
+  name = "github.com/chzyer/readline"
+  packages = ["."]
+  revision = "62c6fe6193755f722b8b8788aa7357be55a50ff1"
+  version = "v1.4"
+
+[[projects]]
+  name = "github.com/fatih/color"
+  packages = ["."]
+  revision = "507f6050b8568533fb3f5504de8e5205fa62a114"
+  version = "v1.6.0"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/flynn-archive/go-shlex"
+  packages = ["."]
+  revision = "3f9db97f856818214da2e1057f8ad84803971cff"
 
 [[projects]]
   name = "github.com/golang/protobuf"
@@ -24,6 +42,18 @@
   packages = ["."]
   revision = "064e2069ce9c359c118179501254f67d7d37ba24"
   version = "0.2"
+
+[[projects]]
+  name = "github.com/mattn/go-colorable"
+  packages = ["."]
+  revision = "167de6bfdfba052fa6b2d3664c8f5272e23c9072"
+  version = "v0.0.9"
+
+[[projects]]
+  name = "github.com/mattn/go-isatty"
+  packages = ["."]
+  revision = "0360b2af4f38e8d38c7fce2a9f4e702702d73a39"
+  version = "v0.0.3"
 
 [[projects]]
   branch = "master"
@@ -51,6 +81,12 @@
     "jwt"
   ]
   revision = "543e37812f10c46c622c9575afd7ad22f22a12ba"
+
+[[projects]]
+  branch = "master"
+  name = "golang.org/x/sys"
+  packages = ["unix"]
+  revision = "3b87a42e500a6dc65dae1a55d0b641295971163e"
 
 [[projects]]
   branch = "master"
@@ -89,6 +125,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "80b88f0590faad280c6ca858b86f4cb17af2622c8f476367468fa855cbeb913a"
+  inputs-digest = "68cd5074002993f582a97a9f08a29d15e764407ce39b2ed530a36ad9e8d82b1c"
   solver-name = "gps-cdcl"
   solver-version = 1
