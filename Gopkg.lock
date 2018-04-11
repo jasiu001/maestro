@@ -14,10 +14,10 @@
   revision = "42a9bbfa0017d7243b50b8f542076ef3d5e7da6c"
 
 [[projects]]
+  branch = "master"
   name = "github.com/chzyer/readline"
   packages = ["."]
-  revision = "62c6fe6193755f722b8b8788aa7357be55a50ff1"
-  version = "v1.4"
+  revision = "f6d7a1f6fbf35bbf9beb80dc63c56a29dcfb759f"
 
 [[projects]]
   name = "github.com/fatih/color"
@@ -125,6 +125,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "68cd5074002993f582a97a9f08a29d15e764407ce39b2ed530a36ad9e8d82b1c"
+  inputs-digest = "06cc97a0a29ea816fff1e1406bd9e0ed03959d8d67d0fe5609ac65e3ce446fd7"
   solver-name = "gps-cdcl"
   solver-version = 1

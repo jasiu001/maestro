@@ -15,7 +15,13 @@ type Data struct {
 }
 
 func separate(full string) []string {
-	return strings.Split(full, ";")
+	words := strings.Split(full, ";")
+
+	for key, val := range words {
+		words[key] = strings.TrimSpace(val)
+	}
+
+	return words
 }
 
 func prepareRepeatValue(value string) byte {

@@ -44,8 +44,12 @@ func (l *List) GetTranslations() []string {
 	return l.activeRow.translations
 }
 
-func (l *List) GetWords() (uuid.UUID, []string) {
+func (l List) GetWords() (uuid.UUID, []string) {
 	return l.activeRow.id, l.activeRow.words
+}
+
+func (l List) GetDescription() string {
+	return l.activeRow.description
 }
 
 func (l List) IsEmpty() bool {
