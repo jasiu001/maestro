@@ -1,72 +1,43 @@
 package list
 
 import (
-	"github.com/google/uuid"
-	"math/rand"
-	"time"
+	"fmt"
+	"strings"
 )
 
+// #### MOCK
 type List struct {
-	rows      []row
-	activeRow row
+	Parts  []string
+	result []string
 }
 
-func CreateList(rowsData []RowData) *List {
-	var list List
+func (l *List) IsFinished() bool {
+	return len(l.Parts) == 0
+}
 
-	for _, rowData := range rowsData {
-		newUUID, _ := uuid.NewRandom()
-		r := row{
-			id:           newUUID,
-			kind:         rowData.GetKind(),
-			words:        rowData.GetWords(),
-			translations: rowData.GetTranslations(),
-			description:  rowData.GetDescription(),
-			repeat:       rowData.GetRepeat(),
-		}
+func (l *List) GetDescription() string {
+	part := l.Parts[0]
+	l.Parts = l.Parts[1:]
 
-		list.rows = append(list.rows, r)
+	return part
+}
+
+func (l *List) NumberOfWords() int {
+	return 2
+}
+
+func (l *List) ExecuteResponse(data []string) {
+	for _, w := range data {
+		l.result = append(l.result, w)
 	}
-	list.activateRow()
-
-	return &list
 }
 
-func (l *List) activateRow() {
-	s := rand.NewSource(time.Now().Unix())
-	r := rand.New(s)
-	index := r.Intn(len(l.rows))
-
-	l.activeRow = l.rows[index]
+func (l *List) GetResult() string {
+	msg := fmt.Sprintf("you words: %s \n\n", strings.Join(l.result, ","))
+	l.result = []string{}
+	return msg
 }
 
-func (l *List) GetTranslations() []string {
-	return l.activeRow.translations
-}
-
-func (l List) GetWords() (uuid.UUID, []string) {
-	return l.activeRow.id, l.activeRow.words
-}
-
-func (l List) GetDescription() string {
-	return l.activeRow.description
-}
-
-func (l List) IsEmpty() bool {
-	return len(l.rows) == 0
-}
-
-func (l *List) Remove(index uuid.UUID) {
-	for key, element := range l.rows {
-		if element.id != index {
-			continue
-		}
-		// remove element
-		l.rows = append(l.rows[:key], l.rows[key+1:]...)
-		if l.IsEmpty() {
-			return
-		}
-		l.activateRow()
-		return
-	}
+func (l *List) GetSummary() string {
+	return "Here will be summary"
 }
