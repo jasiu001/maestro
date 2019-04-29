@@ -34,6 +34,7 @@ func NewComparison() *Comparison {
 }
 
 func (c *Comparison) Compare(patterns, words []string) int {
+	c.words = []*Word{}
 	c.makePairs(patterns, words)
 	c.findBestResult()
 

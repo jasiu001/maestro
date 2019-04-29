@@ -41,7 +41,7 @@ type Item struct {
 	description  string
 	amoutOfWords int
 	words        []string
-	resultMark   mark.Mark
+	resultMark   *mark.Mark
 }
 
 type List struct {
@@ -57,7 +57,7 @@ func (l *List) IsFinished() bool {
 
 func (l *List) GetDescription() string {
 	if l.currentItem() != nil {
-		return l.currentItem().description
+		return fmt.Sprintf("%s \n %s", l.currentItem().translation, l.currentItem().description)
 	}
 	return ""
 }
@@ -90,7 +90,7 @@ func (l *List) GetResult() string {
 }
 
 func (l *List) GetSummary() string {
-	return fmt.Sprintf("There were %s words", len(l.passedItems))
+	return fmt.Sprintf("There were %d words", len(l.passedItems))
 }
 
 func (l *List) currentItem() *Item {
