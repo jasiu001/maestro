@@ -1,50 +1,52 @@
 package bucket
 
-type Bucket struct {
-	words     []*Word
-	uWords    []UserWord
-	passWords int
+import (
+	"encoding/json"
+	"github.com/pkg/errors"
+	"io/ioutil"
+	"os"
+)
+
+type Bundle struct {
+	Kind        string   `json:"type"`
+	Words       []string `json:"words"`
+	Translation string   `json:"translation"`
+	Description string   `json:"description"`
+	Points      int      `json:"points"`
 }
 
-func InitBucket(words []string, uWords []string) *Bucket {
-
-	var bucketWords []*Word
-	for _, word := range words {
-		bucketWords = append(bucketWords, NewWord(word))
+func NewBundleCollectionFromFile(pathToFile string) ([]Bundle, error) {
+	jsonFile, err := os.Open(pathToFile)
+	if err != nil {
+		return nil, errors.Wrap(err, "during open file")
 	}
 
-	var bucketUserWords []UserWord
-	for _, uWord := range uWords {
-		bucketUserWords = append(bucketUserWords, UserWord(uWord))
+	byteValue, err := ioutil.ReadAll(jsonFile)
+	if err != nil {
+		return nil, errors.Wrap(err, "during read file")
 	}
 
-	return &Bucket{
-		words:     bucketWords,
-		uWords:    bucketUserWords,
-		passWords: 0,
-	}
-}
-
-func (b Bucket) GetPairs() []pair {
-	var bucketPair []pair
-
-	for _, word := range b.words {
-		for _, uWord := range b.uWords {
-			bucketPair = append(bucketPair, pair{word, uWord})
-		}
+	var collection []Bundle
+	err = json.Unmarshal(byteValue, &collection)
+	if err != nil {
+		return nil, errors.Wrap(err, "during unmarshal file content")
 	}
 
-	return bucketPair
+	return collection, nil
 }
 
-func (b Bucket) Words() []*Word {
-	return b.words
+func (b Bundle) GetTranslation() string {
+	return b.Translation
 }
 
-func (b Bucket) Pass() bool {
-	return len(b.words) == b.passWords
+func (b Bundle) GetDescription() string {
+	return b.Description
 }
 
-func (b *Bucket) PassWord() {
-	b.passWords++
+func (b Bundle) GetWords() []string {
+	return b.Words
+}
+
+func (b Bundle) AmountOfWords() int {
+	return len(b.Words)
 }

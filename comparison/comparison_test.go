@@ -1,98 +1,97 @@
 package comparison
 
 import (
-	"github.com/jasiu001/maestro/bucket"
+	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
-func TestCompareWordsWithResultCorrect(t *testing.T) {
-	word := bucket.NewWord("ccccc")
-	uWord := bucket.UserWord("ccccc")
-
-	CompareWords(word, uWord)
-	if word.Rating().NameMark() != "CORRECT" {
-		t.Errorf("Word mark should be CORRECT but is: %s", word.Rating().NameMark())
+func TestComparison_Compare(t *testing.T) {
+	testCases := map[string]struct {
+		pattern []string
+		words   []string
+		result  int
+	}{
+		"full match one word": {
+			pattern: []string{"aaa"},
+			words:   []string{"aaa"},
+			result:  0,
+		},
+		"full match two words": {
+			pattern: []string{"aaa", "bbb"},
+			words:   []string{"bbb", "aaa"},
+			result:  0,
+		},
+		"full match three words": {
+			pattern: []string{"aaa", "ccc", "bbb"},
+			words:   []string{"ccc", "bbb", "aaa"},
+			result:  0,
+		},
+		"one mistake one word": {
+			pattern: []string{"aaa"},
+			words:   []string{"aab"},
+			result:  1,
+		},
+		"one mistake two words": {
+			pattern: []string{"aaa", "bbb"},
+			words:   []string{"bbb", "aab"},
+			result:  1,
+		},
+		"one mistake three words": {
+			pattern: []string{"aaa", "bbb", "ccc"},
+			words:   []string{"ccc", "bbb", "aab"},
+			result:  1,
+		},
+		"two mistakes one word": {
+			pattern: []string{"aaa"},
+			words:   []string{"acb"},
+			result:  2,
+		},
+		"two mistakes two words": {
+			pattern: []string{"aaa", "bbb"},
+			words:   []string{"bcb", "aab"},
+			result:  2,
+		},
+		"two mistakes three words": {
+			pattern: []string{"aaa", "bbb", "ccc"},
+			words:   []string{"bcb", "ccc", "aab"},
+			result:  2,
+		},
+		"three mistakes one word": {
+			pattern: []string{"aaa"},
+			words:   []string{"bbb"},
+			result:  3,
+		},
+		"three mistakes two words": {
+			pattern: []string{"aaa", "bbb"},
+			words:   []string{"bbc", "bba"},
+			result:  3,
+		},
+		"three mistakes three words": {
+			pattern: []string{"aaa", "bbb", "ccc"},
+			words:   []string{"bbb", "add", "ccw"},
+			result:  3,
+		},
+		"four mistakes one word": {
+			pattern: []string{"aaaa"},
+			words:   []string{"bbbb"},
+			result:  4,
+		},
+		"four mistakes two words": {
+			pattern: []string{"aaa", "bbb"},
+			words:   []string{"byy", "xxa"},
+			result:  4,
+		},
+		"four mistakes three words": {
+			pattern: []string{"aaa", "bbb", "ccc"},
+			words:   []string{"bcb", "add", "ccw"},
+			result:  4,
+		},
 	}
-}
 
-func TestCompareWordsWithResultProper(t *testing.T) {
-	word := bucket.NewWord("aaaaa")
-	uWord := bucket.UserWord("aaaab")
-
-	CompareWords(word, uWord)
-	if word.Rating().NameMark() != "PROPER" {
-		t.Errorf("Word mark should be PROPER but is: %s", word.Rating().NameMark())
-	}
-}
-
-func TestCompareWordsWithResultSimilar(t *testing.T) {
-	word := bucket.NewWord("xxxxxxx")
-	uWord := bucket.UserWord("xxyxxxy")
-
-	CompareWords(word, uWord)
-	if word.Rating().NameMark() != "SIMILAR" {
-		t.Errorf("Word mark should be SIMILAR but is: %s", word.Rating().NameMark())
-	}
-}
-
-func TestCompareWordsWithResultWrong(t *testing.T) {
-	word := bucket.NewWord("aaaaaa")
-	uWord := bucket.UserWord("bbbbbb")
-
-	CompareWords(word, uWord)
-	if word.Rating().NameMark() != "WRONG" {
-		t.Errorf("Word mark should be WRONG but is: %s", word.Rating().NameMark())
-	}
-}
-
-func TestCompareWordsWithResultCorrectAfterSecondTry(t *testing.T) {
-	word := bucket.NewWord("ccccc")
-	uWord := bucket.UserWord("ccbbc")
-
-	CompareWords(word, uWord)
-	if word.Rating().NameMark() != "SIMILAR" {
-		t.Errorf("Word mark should be SIMILAR but is: %s", word.Rating().NameMark())
-	}
-
-	uWord2 := bucket.UserWord("ccccc")
-	CompareWords(word, uWord2)
-	if word.Rating().NameMark() != "CORRECT" {
-		t.Errorf("Word mark should be CORRECT but is: %s", word.Rating().NameMark())
-	}
-}
-
-func TestBucket_RunComparison(t *testing.T) {
-	testBucket := bucket.InitBucket([]string{"word1", "word2"}, []string{"word2", "word1"})
-	RunComparison(testBucket)
-
-	if !testBucket.Pass() {
-		t.Errorf("Bucket should has state Pass but has not")
-	}
-}
-
-func TestBucket_RunComparisonWithOneMistakeBucket(t *testing.T) {
-	testBucket := bucket.InitBucket([]string{"word1", "word2"}, []string{"word", "word1"})
-	RunComparison(testBucket)
-
-	if testBucket.Pass() {
-		t.Errorf("Bucket should not has state Pass but it has")
-	}
-}
-
-func TestBucket_RunComparisonWithTwoMistakesBucket(t *testing.T) {
-	testBucket := bucket.InitBucket([]string{"word1", "word2"}, []string{"word", "ward1"})
-	RunComparison(testBucket)
-
-	if testBucket.Pass() {
-		t.Errorf("Bucket should not has state Pass but it has")
-	}
-}
-
-func TestBucket_RunComparisonWithThreeCorrectWords(t *testing.T) {
-	testBucket := bucket.InitBucket([]string{"word1", "word2", "word3"}, []string{"word2", "word3", "word1"})
-	RunComparison(testBucket)
-
-	if !testBucket.Pass() {
-		t.Errorf("Bucket should has state Pass but has not")
+	for name, tn := range testCases {
+		t.Run(name, func(t *testing.T) {
+			cmp := NewComparison()
+			assert.Equal(t, tn.result, cmp.Compare(tn.pattern, tn.words))
+		})
 	}
 }

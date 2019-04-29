@@ -1,12 +1,24 @@
 package main
 
 import (
-	"fmt"
-	levenshtein "github.com/texttheater/golang-levenshtein/levenshtein"
+	"github.com/jasiu001/maestro/bucket"
+	"github.com/jasiu001/maestro/cli"
+	"github.com/jasiu001/maestro/comparison"
+	"github.com/jasiu001/maestro/list"
+	"log"
 )
 
-// export GOPATH=$HOME/workspace/maestro-project
-
 func main() {
-	fmt.Println(levenshtein.DistanceForStrings([]rune("aaaa"), []rune("aabb"), levenshtein.DefaultOptions))
+	pathToFile := "./data/data.json"
+	words, err := bucket.NewBundleCollectionFromFile(pathToFile)
+	if err != nil {
+		log.Fatalf("Failed during fetch data from file %q: %s", pathToFile, err)
+	}
+
+	var buckets []list.Bucket
+	for _, word := range words {
+		buckets = append(buckets, word)
+	}
+	wordsList := list.CreateList(buckets, comparison.NewComparison())
+	cli.RunCmdApplication(wordsList)
 }

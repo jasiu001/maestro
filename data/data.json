@@ -1,0 +1,30 @@
+[
+  {
+    "type": "v",
+    "words": [
+      "assume"
+    ],
+    "translation": "zakładać że; przypuszczać że",
+    "description": "I * you know what are you talking about",
+    "points": 0
+  },
+  {
+    "type": "v",
+    "words": [
+      "assess"
+    ],
+    "translation": "oszacować; ocenić",
+    "description": "I need to * how much time it takes for me",
+    "points": 0
+  },
+  {
+    "type": "v",
+    "words": [
+      "diy",
+      "do it yourself"
+    ],
+    "translation": "majsterkowanie; zrób to sam",
+    "description": "He's useless at *. He won't even put up a shelf.",
+    "points": 0
+  }
+]
