@@ -5,10 +5,7 @@ import (
 	"github.com/chzyer/readline"
 	"github.com/spf13/cobra"
 	"log"
-	"strings"
 )
-
-const exit = "exit!"
 
 type Application interface {
 	GetDescription() string
@@ -32,18 +29,15 @@ func GenerateTranslateCommand(app Application) *cobra.Command {
 
 func runTranslate(app Application) {
 	shell, err := readline.NewEx(&readline.Config{
-		Prompt: "> ",
+		Prompt:          "> ",
+		InterruptPrompt: "^C",
+		EOFPrompt:       exit,
 	})
 	if err != nil {
 		log.Fatalf("failed during create new read liner: %s", err)
 		return
 	}
-	defer func() {
-		err := shell.Close()
-		if err != nil {
-			log.Fatalf("failed during close read liner: %s", err)
-		}
-	}()
+	defer deferProgram(shell)
 
 	for {
 		if app.IsFinished() {
@@ -54,8 +48,8 @@ func runTranslate(app Application) {
 		fmt.Println(app.GetDescription())
 		var input []string
 		for i := 0; i < app.NumberOfWords(); i++ {
-			inp, _ := shell.Readline()
-			if strings.HasPrefix(inp, exit) {
+			inp, err := readLine(shell)
+			if exitProgram(inp, err) {
 				fmt.Println("Good bye!")
 				return
 			}

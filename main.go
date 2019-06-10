@@ -4,6 +4,7 @@ import (
 	"github.com/jasiu001/maestro/bucket"
 	"github.com/jasiu001/maestro/cli"
 	"github.com/jasiu001/maestro/comparison"
+	"github.com/jasiu001/maestro/importer"
 	"github.com/jasiu001/maestro/list"
 	"log"
 )
@@ -20,5 +21,5 @@ func main() {
 		buckets = append(buckets, word)
 	}
 	wordsList := list.CreateList(buckets, comparison.NewComparison())
-	cli.RunCmdApplication(wordsList)
+	cli.RunMaestro(wordsList, importer.NewBucketWriter())
 }
