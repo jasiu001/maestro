@@ -1,18 +1,26 @@
 package importer
 
 import (
-	"github.com/davecgh/go-spew/spew"
 	"github.com/google/uuid"
 	"github.com/jasiu001/maestro/bucket"
 	"github.com/pkg/errors"
 )
 
-type bucketWriter struct {
-	bct bucket.Bundle
+// mockery -name BuckerSaver
+type BuckerSaver interface {
+	SaveBucket(b bucket.Bundle) error
 }
 
-func NewBucketWriter() *bucketWriter {
-	return &bucketWriter{bucket.Bundle{}}
+type bucketWriter struct {
+	saver BuckerSaver
+	bct   bucket.Bundle
+}
+
+func NewBucketWriter(bs BuckerSaver) *bucketWriter {
+	return &bucketWriter{
+		saver: bs,
+		bct:   bucket.Bundle{},
+	}
 }
 
 func (b *bucketWriter) SetType(t string) {
@@ -38,7 +46,11 @@ func (b *bucketWriter) Save() error {
 	}
 
 	b.bct.ID = id.String()
-	spew.Dump(b.bct)
+	err = b.saver.SaveBucket(b.bct)
+	if err != nil {
+		return errors.Wrap(err, "failed during save bucket")
+	}
 
+	b.bct = bucket.Bundle{}
 	return nil
 }

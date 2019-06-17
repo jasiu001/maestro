@@ -144,7 +144,7 @@ func saveInput(importer Importer, data InputReceiver) {
 
 	err := importer.Save()
 	if err != nil {
-		fmt.Println("failed during save words. Please try again.")
+		fmt.Printf("failed during save words: %s. Please try again.", err)
 		return
 	}
 
