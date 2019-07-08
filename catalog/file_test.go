@@ -9,6 +9,7 @@ import (
 	"github.com/jasiu001/maestro/bucket"
 	"github.com/jasiu001/maestro/catalog/mocks"
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/mock"
 )
 
 func TestFile_GenerateNewName(t *testing.T) {
@@ -82,8 +83,11 @@ func TestFile_findFilePath(t *testing.T) {
 		t.Run(name, func(t *testing.T) {
 			// Given
 			fo := mocks.FileOperation{}
+			fo.On("WriteFile", state.expected, []byte{}).Return(nil)
+
 			dir := mocks.DirectoryReader{}
 			dir.On("GetFiles").Return(state.files, state.directoryErr)
+			dir.On("GetFullPathToFile", mock.AnythingOfType("string")).Return(state.expected, state.directoryErr)
 
 			// When
 			tc := NewFile(state.input, &fo, &dir)

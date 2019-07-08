@@ -89,6 +89,10 @@ func (f *file) findFilePath() error {
 
 	if len(files) == 0 {
 		f.GenerateNewName()
+		err := f.frw.WriteFile(f.directory.GetFullPathToFile(f.name), []byte{})
+		if err != nil {
+			return errors.Wrap(err, "while creating new file")
+		}
 		return nil
 	}
 
