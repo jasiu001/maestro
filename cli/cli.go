@@ -6,10 +6,11 @@ import (
 	"log"
 )
 
-func RunCmdApplication(app cmd.Application) {
-	var cliApplication = &cobra.Command{Use: "app"}
+func RunMaestro(app cmd.Application, importer cmd.Importer) {
+	var cliApplication = &cobra.Command{Use: "maestro"}
 	cliApplication.AddCommand(cmd.ManualCommand)
 	cliApplication.AddCommand(cmd.GenerateTranslateCommand(app))
+	cliApplication.AddCommand(cmd.GenerateEnterCommand(importer))
 
 	err := cliApplication.Execute()
 	if err != nil {

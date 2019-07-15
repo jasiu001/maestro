@@ -8,6 +8,7 @@ import (
 )
 
 type Bundle struct {
+	ID          string   `json:"id"`
 	Kind        string   `json:"type"`
 	Words       []string `json:"words"`
 	Translation string   `json:"translation"`

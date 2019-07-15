@@ -16,4 +16,7 @@
 
 # vendor from dep
 vendor
-config/client_secret.json
+
+# dir with data
+data/*
+!data/20190611200712.json
