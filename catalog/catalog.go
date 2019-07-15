@@ -30,6 +30,7 @@ func (cm *CatalogManager) SaveBucket(bct bucket.Bundle) error {
 	}
 
 	if len(buckets) >= maxBucketsPerFile {
+		buckets = make([]bucket.Bundle, 0)
 		cm.file.GenerateNewName()
 	}
 
