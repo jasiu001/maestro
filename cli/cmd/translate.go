@@ -3,6 +3,7 @@ package cmd
 import (
 	"fmt"
 	"github.com/chzyer/readline"
+	"github.com/jasiu001/maestro/cli/cmd/translate"
 	"github.com/spf13/cobra"
 	"log"
 )
@@ -10,6 +11,7 @@ import (
 type Application interface {
 	GetDescription() string
 	NumberOfWords() int
+	GetWords() []string
 	ExecuteResponse([]string)
 	GetResult() string
 	IsFinished() bool
@@ -55,7 +57,9 @@ func runTranslate(app Application) {
 			}
 			input = append(input, inp)
 		}
+
+		words := app.GetWords()
 		app.ExecuteResponse(input)
-		fmt.Printf("Result: %s \n", app.GetResult())
+		translate.Result(app.GetResult(), words)
 	}
 }

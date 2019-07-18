@@ -69,6 +69,10 @@ func (l *List) NumberOfWords() int {
 	return 0
 }
 
+func (l *List) GetWords() []string {
+	return l.currentItem().words
+}
+
 func (l *List) ExecuteResponse(data []string) {
 	result := l.comparer.Compare(l.currentItem().words, data)
 	l.currentItem().resultMark.UpdateMark(result)
