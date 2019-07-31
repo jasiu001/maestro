@@ -20,3 +20,4 @@ vendor
 # dir with data
 data/*
 !data/20190611200712.json
+/storage

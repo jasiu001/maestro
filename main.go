@@ -22,7 +22,7 @@ func main() {
 	for _, word := range words {
 		buckets = append(buckets, word)
 	}
-	wordsList := list.CreateList(buckets, comparison.NewComparison())
+	wordsList := list.CreateList(buckets, comparison.NewComparison(), list.NewIndexList())
 	cm := catalog.NewCatalogManager(catalog.NewFile("", catalog.FileReadWrite{}, catalog.Directory{}))
 	cli.RunMaestro(wordsList, importer.NewBucketWriter(cm))
 }
