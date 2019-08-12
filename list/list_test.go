@@ -1,17 +1,24 @@
 package list
 
 import (
+	"testing"
+
 	"github.com/jasiu001/maestro/list/mocks"
 	"github.com/stretchr/testify/assert"
-	"testing"
+	testMock "github.com/stretchr/testify/mock"
 )
 
 func TestList_ExecuteResponse(t *testing.T) {
 	// Given
+	idList := mocks.IDList{}
+	idList.On("GenerateID").Return("1234-abcd")
+	idList.On("RandomID").Return("1234-abcd")
+	idList.On("RemoveID", testMock.AnythingOfType("string")).Return()
+
 	comparer := mocks.Comparer{}
 	comparer.On("Compare", []string{"a", "b"}, []string{"a", "b"}).Return(0)
 	comparer.On("Compare", []string{"a", "b"}, []string{"c", "b"}).Return(1)
-	ls := CreateList(oneBucketTest(), &comparer)
+	ls := CreateList(oneBucketTest(), &comparer, &idList)
 
 	// When
 	ls.ExecuteResponse([]string{"c", "b"})
@@ -28,6 +35,15 @@ func TestList_ExecuteResponse(t *testing.T) {
 
 func TestFlow(t *testing.T) {
 	// Given
+	buckets := twoBucketsTest()
+
+	idList := mocks.IDList{}
+	idList.On("GenerateID").Return("1234-abcd").Once()
+	idList.On("GenerateID").Return("5678-efgh").Once()
+	idList.On("RandomID").Return("1234-abcd").Once()
+	idList.On("RandomID").Return("5678-efgh")
+	idList.On("RemoveID", testMock.AnythingOfType("string")).Return()
+
 	comparer := mocks.Comparer{}
 	comparer.On("Compare", []string{"a", "b"}, []string{"a", "b"}).Return(0)
 	comparer.On("Compare", []string{"a", "b"}, []string{"c", "d"}).Return(0)
@@ -35,7 +51,7 @@ func TestFlow(t *testing.T) {
 	comparer.On("Compare", []string{"c", "d"}, []string{"c", "d"}).Return(0)
 
 	// When
-	ls := CreateList(twoBucketsTest(), &comparer)
+	ls := CreateList(buckets, &comparer, &idList)
 
 	// Then
 	assert.False(t, ls.IsFinished())

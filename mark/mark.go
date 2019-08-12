@@ -8,6 +8,14 @@ const (
 	WRONG   = 4
 )
 
+const (
+	NONE_STR    = "NONE"
+	CORRECT_STR = "CORRECT"
+	PROPER_STR  = "PROPER"
+	SIMILAR_STR = "SIMILAR"
+	WRONG_STR   = "WRONG"
+)
+
 func SpecifyMark(difference int) int {
 	switch difference {
 	case 0:
@@ -32,15 +40,15 @@ func InitMark() *Mark {
 func (m Mark) NameMark() string {
 	switch m.value {
 	case 0:
-		return "NONE"
+		return NONE_STR
 	case 1:
-		return "CORRECT"
+		return CORRECT_STR
 	case 2:
-		return "PROPER"
+		return PROPER_STR
 	case 3:
-		return "SIMILAR"
+		return SIMILAR_STR
 	case 4:
-		return "WRONG"
+		return WRONG_STR
 	default:
 		return "Undefined"
 	}
