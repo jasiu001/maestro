@@ -45,11 +45,11 @@ func NewInputData() *inputData {
 					if input == "" {
 						return false, "Translation is required"
 					}
-					re := regexp.MustCompile(`^[a-zA-Z\s]*$`)
+					re := regexp.MustCompile(`^[a-zA-Z\s\-,\:]*$`)
 					if re.MatchString(input) {
 						return true, ""
 					}
-					return false, "Translation has to contain only letters"
+					return false, "Translation has to contain only letters (and chars: -,:)"
 				},
 			},
 			2: {
